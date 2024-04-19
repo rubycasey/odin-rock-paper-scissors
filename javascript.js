@@ -1,23 +1,45 @@
+let scoreboard = document.querySelector("#score");
+let textConsole = document.querySelector("#console");
+
 let playerScore = 0;
 let computerScore = 0;
 
-let gameLength = 5;
+let bttnRock = document.querySelector("#rock");
+let bttnPaper = document.querySelector("#paper");
+let bttnScissors = document.querySelector("#scissors");
 
-function playRound() {
-    let playerChoice = getPlayerChoice();
-    let computerChoice = getComputerChoice();
+let gameLength = 5;
+let currentRound = 1;
+
+scoreboard.innerText = `Score: ${playerScore} - ${computerScore}, Round: ${currentRound} / ${gameLength}`;
+textConsole.innerText = `Welcome!`;
+
+bttnRock.addEventListener("click", () => {
+	playRound("rock");
+})
+bttnPaper.addEventListener("click", () => {
+	playRound("paper");
+})
+bttnScissors.addEventListener("click", () => {
+	playRound("scissors");
+})
+
+function playRound(playerChoice = getPlayerChoice(), computerChoice = getComputerChoice()) {
     // Checks for tie.
     if (playerChoice == computerChoice) {
         console.log(`NPC also chose ${playerChoice}, its a tie!`)
+		textConsole.innerText = `NPC also chose ${playerChoice}, its a tie!`
         return null;
     };
 
     // Decides winner of round.
     if (compareSelections(playerChoice, computerChoice) == true) {
         console.log(`NPC chose ${computerChoice}, you win!`)
+		textConsole.innerText = `NPC chose ${computerChoice}, you gained a point!`;
         return "player";
     } else {
         console.log(`NPC chose ${computerChoice}, you lose. :(`)
+		textConsole.innerText = `NPC chose ${computerChoice}, they gained a point.`;
         return "computer";
     };
 };
@@ -83,6 +105,8 @@ function compareSelections(player, computer) {
     // Returns true if player's choice wins over the computer's.
     // Returns false if not.
     switch (player) {
+		case computer:
+			console.log("bababooey")
         case "rock":
             if (computer == "scissors") {
                 return true;
@@ -95,6 +119,7 @@ function compareSelections(player, computer) {
             } else {return false;};
         case "scissors":
             if (computer == "paper") {
+
                 return true;
                 break;
             } else {return false;};
