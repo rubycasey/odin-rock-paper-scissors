@@ -3,8 +3,6 @@ let computerScore = 0;
 
 let gameLength = 5;
 
-playGame();
-
 function playRound() {
     let playerChoice = getPlayerChoice();
     let computerChoice = getComputerChoice();
