@@ -27,7 +27,7 @@ bttnScissors.addEventListener("click", () => {
 })
 
 function playRound(playerChoice = getPlayerChoice(), computerChoice = getComputerChoice()) {
-	if (currentRound < gameLength) {
+	if (currentRound + 1 < gameLength) {
 		// Checks for tie.
 		if (playerChoice == computerChoice) {
 			console.log(`NPC also chose ${playerChoice}, its a tie!`)
@@ -44,10 +44,9 @@ function playRound(playerChoice = getPlayerChoice(), computerChoice = getCompute
 			textConsole.innerText = `NPC chose ${computerChoice}, they gained a point.`;
 			computerScore++;
 		};
-		currentRound++;
-		updateScoreboard();
+
 		// Checks for end game
-		if (currentRound == gameLength) {
+		if (currentRound + 1 == gameLength) {
 			// Checks for tie.
 			console.log(`endgame`)
 			if (playerScore == computerScore) {
@@ -73,6 +72,8 @@ function playRound(playerChoice = getPlayerChoice(), computerChoice = getCompute
 			textConsole.parentNode.appendChild(restartButton)
 		return;
 		};
+		updateScoreboard();
+		currentRound++;
 	};
 };
 
@@ -125,7 +126,6 @@ function compareSelections(player, computer) {
     };
 };
 
-function updateScoreboard() {
-
-	scoreboard.innerText = `Score: ${playerScore} - ${computerScore}, Round: ${currentRound} / ${gameLength}`;
+function updateScoreboard() {	
+	scoreboard.innerText = `Score: ${playerScore} - ${computerScore}, Round: ${currentRound + 1} / ${gameLength}`;
 };
