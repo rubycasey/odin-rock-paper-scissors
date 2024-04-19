@@ -1,18 +1,21 @@
+// Getting UI elements
 let scoreboard = document.querySelector("#score");
 let textConsole = document.querySelector("#console");
 
-let playerScore = 0;
-let computerScore = 0;
 let bttnRock = document.querySelector("#rock");
 let bttnPaper = document.querySelector("#paper");
 let bttnScissors = document.querySelector("#scissors");
 
+// Game variables
+let playerScore = 0;
+let computerScore = 0;
 let gameLength = 5;
 let currentRound = 0;
 
 updateScoreboard();
 textConsole.innerText = `Welcome!`;
 
+// Button logic,
 bttnRock.addEventListener("click", () => {
 	playRound("rock");
 })
@@ -49,54 +52,26 @@ function playRound(playerChoice = getPlayerChoice(), computerChoice = getCompute
 		};
 
 		// Checks for end game
-			if (currentRound == gameLength+1) {
-				// Checks for tie.
-				if (playerScore == computerScore) {
-					console.log(`You tied with a score of ${playerScore}.`)
-					return;
-				};
-				switch (playerScore > computerScore) {
-					case true:
-						console.log(`You won with a score of ${playerScore}!`);
-						break;
-					case false:
-						console.log(`You lost with a score of ${playerScore}.`);
-						break;
-				};	
+		console.log("yee")
+		if (currentRound + 1 == gameLength) {
+			// Checks for tie.
+			if (playerScore == computerScore) {
+				console.log(`You tied with a score of ${playerScore}.`)
+				textConsole.innerText = `You tied with a score of ${playerScore}`
+				return;
 			};
+			switch (playerScore > computerScore) {
+				case true:
+					console.log(`You won with a score of ${playerScore}!`);
+					textConsole.innerText = `You won with a score of ${playerScore}!`;
+					break;
+				case false:
+					console.log(`You lost with a score of ${playerScore}.`);
+					textConsole.innerText = `You lost with a score of ${playerScore}.`;
+					break;
+			};
+		};
 	};
-};
-
-function playGame() {
-    // Loops round for the set game length.
-    for (let i = 0; i < gameLength; i++) {
-        result = playRound();
-        switch (result) {
-            case "player":
-                playerScore += 1;
-                break;
-            case "computer":
-                computerScore += 1;
-                break;
-            case null:
-                break;
-        };
-        console.log(`Your score: ${playerScore}, NPC score: ${computerScore}.`);
-    };
-
-    // Checks for tie.
-    if (playerScore == computerScore) {
-        console.log(`You tied with a score of ${playerScore}.`)
-        return;
-    };
-    switch (playerScore > computerScore) {
-        case true:
-            console.log(`You won with a score of ${playerScore}!`);
-            break;
-        case false:
-            console.log(`You lost with a score of ${playerScore}.`);
-            break;
-    };
 };
 
 function getComputerChoice() {
