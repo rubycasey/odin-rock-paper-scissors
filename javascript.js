@@ -3,15 +3,14 @@ let textConsole = document.querySelector("#console");
 
 let playerScore = 0;
 let computerScore = 0;
-
 let bttnRock = document.querySelector("#rock");
 let bttnPaper = document.querySelector("#paper");
 let bttnScissors = document.querySelector("#scissors");
 
 let gameLength = 5;
-let currentRound = 1;
+let currentRound = 0;
 
-scoreboard.innerText = `Score: ${playerScore} - ${computerScore}, Round: ${currentRound} / ${gameLength}`;
+updateScoreboard();
 textConsole.innerText = `Welcome!`;
 
 bttnRock.addEventListener("click", () => {
@@ -25,23 +24,47 @@ bttnScissors.addEventListener("click", () => {
 })
 
 function playRound(playerChoice = getPlayerChoice(), computerChoice = getComputerChoice()) {
-    // Checks for tie.
-    if (playerChoice == computerChoice) {
-        console.log(`NPC also chose ${playerChoice}, its a tie!`)
-		textConsole.innerText = `NPC also chose ${playerChoice}, its a tie!`
-        return null;
-    };
+	if (currentRound < gameLength-1) {
+		// Checks for tie.
+		if (playerChoice == computerChoice) {
+			console.log(`NPC also chose ${playerChoice}, its a tie!`)
+			textConsole.innerText = `NPC also chose ${playerChoice}, its a tie!`
+			currentRound++;
+			updateScoreboard();
+		};
 
-    // Decides winner of round.
-    if (compareSelections(playerChoice, computerChoice) == true) {
-        console.log(`NPC chose ${computerChoice}, you win!`)
-		textConsole.innerText = `NPC chose ${computerChoice}, you gained a point!`;
-        return "player";
-    } else {
-        console.log(`NPC chose ${computerChoice}, you lose. :(`)
-		textConsole.innerText = `NPC chose ${computerChoice}, they gained a point.`;
-        return "computer";
-    };
+		// Decides winner of round.
+		if (compareSelections(playerChoice, computerChoice) == true) {
+			console.log(`NPC chose ${computerChoice}, you win!`)
+			textConsole.innerText = `NPC chose ${computerChoice}, you gained a point!`;
+			playerScore++;
+			currentRound++;
+			updateScoreboard();
+		} else if (playerChoice != computerChoice) {
+			console.log(`NPC chose ${computerChoice}, you lose. :(`)
+			textConsole.innerText = `NPC chose ${computerChoice}, they gained a point.`;
+			computerScore++;
+			currentRound++;
+			updateScoreboard();
+		};
+
+		// Checks for end game
+			if (currentRound == gameLength+1) {
+				// Checks for tie.
+				if (playerScore == computerScore) {
+					console.log(`You tied with a score of ${playerScore}.`)
+					return;
+				};
+				switch (playerScore > computerScore) {
+					case true:
+						console.log(`You won with a score of ${playerScore}!`);
+						break;
+					case false:
+						console.log(`You lost with a score of ${playerScore}.`);
+						break;
+				};	
+			};
+	};
 };
 
 function playGame() {
@@ -106,7 +129,6 @@ function compareSelections(player, computer) {
     // Returns false if not.
     switch (player) {
 		case computer:
-			console.log("bababooey")
         case "rock":
             if (computer == "scissors") {
                 return true;
@@ -124,4 +146,8 @@ function compareSelections(player, computer) {
                 break;
             } else {return false;};
     };
+};
+
+function updateScoreboard() {	
+	scoreboard.innerText = `Score: ${playerScore} - ${computerScore}, Round: ${currentRound + 1} / ${gameLength}`;
 };
