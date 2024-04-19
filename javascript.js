@@ -52,24 +52,29 @@ function playRound(playerChoice = getPlayerChoice(), computerChoice = getCompute
 		};
 
 		// Checks for end game
-		console.log("yee")
 		if (currentRound + 1 == gameLength) {
 			// Checks for tie.
 			if (playerScore == computerScore) {
 				console.log(`You tied with a score of ${playerScore}.`)
 				textConsole.innerText = `You tied with a score of ${playerScore}`
-				return;
+			} else {
+				switch (playerScore > computerScore) {
+					case true:
+						console.log(`You won with a score of ${playerScore}!`);
+						textConsole.innerText = `You won with a score of ${playerScore}!`;
+						break;
+					case false:
+						console.log(`You lost with a score of ${playerScore}.`);
+						textConsole.innerText = `You lost with a score of ${playerScore}.`;
+						break;
+				};
 			};
-			switch (playerScore > computerScore) {
-				case true:
-					console.log(`You won with a score of ${playerScore}!`);
-					textConsole.innerText = `You won with a score of ${playerScore}!`;
-					break;
-				case false:
-					console.log(`You lost with a score of ${playerScore}.`);
-					textConsole.innerText = `You lost with a score of ${playerScore}.`;
-					break;
-			};
+			const restartButton = document.createElement("button");
+			restartButton.innerText = `Play Again`
+			restartButton.addEventListener("click", () => {
+				location.reload();
+			})
+			textConsole.parentNode.appendChild(restartButton)
 		};
 	};
 };
